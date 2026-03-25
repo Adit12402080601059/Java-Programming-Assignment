@@ -1,28 +1,29 @@
 import java.io.*;
 import java.net.*;
-import java.util.Scanner;
-class EchoClient {
+public class EchoServer {
 public static void main(String[] args) {
 try {
-Socket socket = new Socket("localhost", 5000);
+ServerSocket server = new ServerSocket(5000)
+System.out.println("Server started... Waiting for client");
+Socket socket = server.accept();
+System.out.println("Client connected");
 BufferedReader in = new BufferedReader(
 new InputStreamReader(socket.getInputStream()));
 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-Scanner sc = new Scanner(System.in);
-String msg;
-while (true) {
-System.out.print("Enter message: ");
-msg = sc.nextLine();
-out.println(msg);
-String response = in.readLine();
-System.out.println("Server: " + response);
-if (msg.equalsIgnoreCase("exit"))
+String message;
+while ((message = in.readLine()) != null) {
+System.out.println("Client: " + message);
+out.println("Echo: " + message); // send back same message
+
+if (message.equalsIgnoreCase("exit")) {
 break;
 }
+}
 socket.close();
-} catch (Exception e) {
-System.out.println(e);
+server.close();
+System.out.println("Server closed");
+} catch (IOException e) {
+e.printStackTrace();
 }
 }
 }
-
