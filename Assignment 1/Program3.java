@@ -1,5 +1,5 @@
 public class Program3 {
-   //method to demonstrate Wrapper classes
+   //method to demonstrate Wrapper class
    public static void wrapperDemo() {
        int num = 26; // this is primitive type
 
